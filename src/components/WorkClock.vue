@@ -4,15 +4,22 @@
       <h2>{{ time }}</h2>
       <div class="checkin d-flex justify-content-center">
         <div class="checkin d-flex flex-column justify-content-center align-items-center">
-          <div v-if="!workTimeLog.isStart" class="mt-2">
+          <div v-if="!workTimeLog.isStart && !workTimeLog.isEnded" class="mt-2">
             <button class="btn btn-primary btn-lg active" @click="workStarted">start</button>
           </div>
-          <div v-if="workTimeLog.isStart && !workTimeLog.isBreak" class="mt-2">
+          <div
+            v-if="workTimeLog.isStart && !workTimeLog.isBreak && !workTimeLog.isEnded"
+            class="mt-2"
+          >
             <button class="btn btn-primary btn-lg active" @click="breakStarted">break</button>
             <button class="btn btn-primary btn-lg active" @click="workEnded">checkout</button>
           </div>
-          <div v-if="workTimeLog.isBreak" class="mt-2">
-            <button class="btn btn-primary btn-lg active">re-start</button>
+          <div v-if="workTimeLog.isStart && workTimeLog.isBreak" class="mt-2">
+            <button class="btn btn-primary btn-lg active" @click="breakEnd">break-end</button>
+          </div>
+
+          <div v-if="workTimeLog.isEnded" class="mt-2">
+            <h4>Thanks for you hard work today.</h4>
           </div>
         </div>
       </div>
@@ -21,12 +28,14 @@
 </template>
 
 <script setup>
+import { getCurrentDateTime, getCurrentTime } from '../shared/dateAndTime.js'
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 let time = ref('00:00:00')
 let workTimeLog = ref({
   isStart: false,
   isBreak: false,
+  isEnded: false,
   start_time: null,
   end_time: null,
   break_start_time: null,
@@ -34,40 +43,8 @@ let workTimeLog = ref({
 })
 
 let startTime = () => {
-  const today = new Date()
-  let h = today.getHours()
-  let m = today.getMinutes()
-  let s = today.getSeconds()
-  m = checkTime(m)
-  s = checkTime(s)
-  time.value = h + ':' + m + ':' + s
+  time.value = getCurrentTime()
   setTimeout(startTime, 1000)
-}
-
-function getCurrentDateTime() {
-  const now = new Date()
-
-  // Get the year, month, and day
-  const year = now.getFullYear()
-  const month = String(now.getMonth() + 1).padStart(2, '0')
-  const day = String(now.getDate()).padStart(2, '0')
-
-  // Get the hours, minutes, and seconds
-  const hours = String(now.getHours()).padStart(2, '0')
-  const minutes = String(now.getMinutes()).padStart(2, '0')
-  const seconds = String(now.getSeconds()).padStart(2, '0')
-
-  // Concatenate the date and time parts with the desired format
-  const dateTimeString = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
-
-  return dateTimeString
-}
-
-let checkTime = (i) => {
-  if (i < 10) {
-    i = '0' + i
-  } // add zero in front of numbers < 10
-  return i
 }
 
 onMounted(() => {
@@ -93,6 +70,7 @@ let fetchWorkClockLog = async () => {
       if (userData) {
         workTimeLog.value.isStart = userData[0].isStart
         workTimeLog.value.isBreak = userData[0].isBreak
+        workTimeLog.value.isEnded = userData[0].isEnded
         workTimeLog.value.start_time = userData[0].start_time
         workTimeLog.value.end_time = userData[0].end_time
         workTimeLog.value.break_start_time = userData[0].break_start_time
@@ -109,6 +87,21 @@ let fetchWorkClockLog = async () => {
 let workStarted = () => {
   workTimeLog.value.isStart = true
   workTimeLog.value.start_time = getCurrentDateTime()
+}
+
+let breakStarted = () => {
+  workTimeLog.value.isBreak = true
+  workTimeLog.value.break_start_time = getCurrentDateTime()
+}
+
+let workEnded = () => {
+  workTimeLog.value.isEnded = true
+  workTimeLog.value.end_time = getCurrentDateTime()
+}
+
+let breakEnd = () => {
+  workTimeLog.value.isBreak = false
+  workTimeLog.value.break_end_time = getCurrentDateTime()
 }
 </script>
 
