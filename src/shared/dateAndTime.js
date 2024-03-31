@@ -2,14 +2,12 @@ function getCurrentDateTime() {
   const now = new Date()
 
   // Get the year, month, and day
-  const year = now.getFullYear()
-  const month = String(now.getMonth() + 1).padStart(2, '0')
-  const day = String(now.getDate()).padStart(2, '0')
+  const dateString = getCurrentDate(now)
 
   //Get Current Time
   const timeString = getCurrentTime(now)
   // Concatenate the date and time parts with the desired format
-  const dateTimeString = `${year}-${month}-${day} ${timeString}`
+  const dateTimeString = `${dateString} ${timeString}`
 
   return dateTimeString
 }
@@ -26,4 +24,16 @@ function getCurrentTime(now = null) {
   return timeString
 }
 
-export { getCurrentDateTime, getCurrentTime }
+function getCurrentDate(now = null) {
+  if (now === null) now = new Date()
+  // Get the hours, minutes, and seconds
+  const year = now.getFullYear()
+  const month = String(now.getMonth() + 1).padStart(2, '0')
+  const day = String(now.getDate()).padStart(2, '0')
+
+  const dateString = `${year}-${month}-${day}`
+
+  return dateString
+}
+
+export { getCurrentDateTime, getCurrentTime, getCurrentDate }
