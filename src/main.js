@@ -1,5 +1,6 @@
 import { createApp } from 'vue'
 import App from './App.vue'
+import router from './router/index'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap'
 import VueDatePicker from '@vuepic/vue-datepicker'
@@ -8,4 +9,4 @@ const app = createApp(App)
 
 app.component('VueDatePicker', VueDatePicker)
 
-app.mount('#app')
+app.use(router).mount('#app')

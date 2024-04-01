@@ -1,35 +1,6 @@
-<template>
-  <div class="d-flex justify-content-center">
-    <div class="clock">
-      <h2>{{ time }}</h2>
-      <div class="checkin d-flex justify-content-center">
-        <div class="checkin d-flex flex-column justify-content-center align-items-center">
-          <div v-if="!workTimeLog.isStart && !workTimeLog.isEnded" class="mt-2">
-            <button class="btn btn-primary btn-lg active" @click="workStarted">start</button>
-          </div>
-          <div
-            v-if="workTimeLog.isStart && !workTimeLog.isBreak && !workTimeLog.isEnded"
-            class="mt-2"
-          >
-            <button class="btn btn-primary btn-lg active" @click="breakStarted">break</button>
-            <button class="btn btn-primary btn-lg active" @click="workEnded">checkout</button>
-          </div>
-          <div v-if="workTimeLog.isStart && workTimeLog.isBreak" class="mt-2">
-            <button class="btn btn-primary btn-lg active" @click="breakEnd">break-end</button>
-          </div>
-
-          <div v-if="workTimeLog.isEnded" class="mt-2">
-            <h4>Thanks for you hard work today.</h4>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script setup>
 import { getCurrentDateTime, getCurrentTime } from '../shared/dateAndTime.js'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import axios from 'axios'
 let time = ref('00:00:00')
 let workTimeLog = ref({
@@ -42,14 +13,19 @@ let workTimeLog = ref({
   break_end_time: null
 })
 
+let setTimeOut
 let startTime = () => {
   time.value = getCurrentTime()
-  setTimeout(startTime, 1000)
+  setTimeOut = setTimeout(startTime, 1000)
 }
 
 onMounted(() => {
   fetchWorkClockLog()
   startTime()
+})
+
+onUnmounted(() => {
+  clearTimeout(setTimeOut)
 })
 
 let user_id = 1
@@ -104,6 +80,35 @@ let breakEnd = () => {
   workTimeLog.value.break_end_time = getCurrentDateTime()
 }
 </script>
+
+<template>
+  <div class="d-flex justify-content-center">
+    <div class="clock">
+      <h2>{{ time }}</h2>
+      <div class="checkin d-flex justify-content-center">
+        <div class="checkin d-flex flex-column justify-content-center align-items-center">
+          <div v-if="!workTimeLog.isStart && !workTimeLog.isEnded" class="mt-2">
+            <button class="btn btn-primary btn-lg active" @click="workStarted">start</button>
+          </div>
+          <div
+            v-if="workTimeLog.isStart && !workTimeLog.isBreak && !workTimeLog.isEnded"
+            class="mt-2"
+          >
+            <button class="btn btn-primary btn-lg active" @click="breakStarted">break</button>
+            <button class="btn btn-primary btn-lg active" @click="workEnded">checkout</button>
+          </div>
+          <div v-if="workTimeLog.isStart && workTimeLog.isBreak" class="mt-2">
+            <button class="btn btn-primary btn-lg active" @click="breakEnd">break-end</button>
+          </div>
+
+          <div v-if="workTimeLog.isEnded" class="mt-2">
+            <h4>Thanks for you hard work today.</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
 
 <style scoped>
 .clock {

@@ -1,28 +1,3 @@
-<template>
-  <div>
-    <form>
-      <div class="form-group d-flex flex-column justify-content-center align-items-center">
-        <label for="exampleFormControlTextarea1" class="m-2"><h3>Work Report</h3></label>
-        <textarea
-          class="form-control w-50"
-          id="exampleFormControlTextarea1"
-          rows="6"
-          v-model="workReport.work_report"
-        ></textarea>
-        <div class="datepciker mt-4">
-          <VueDatePicker
-            v-model="work_date"
-            :format="format"
-            @update:model-value="fetchCurrentReportData"
-          >
-          </VueDatePicker>
-        </div>
-        <button type="submit" class="btn btn-primary m-3">Submit</button>
-      </div>
-    </form>
-  </div>
-</template>
-
 <script setup>
 import { ref, onMounted } from 'vue'
 import { getCurrentDate } from '../shared/dateAndTime.js'
@@ -71,6 +46,31 @@ const format = (work_date) => {
   return dateString
 }
 </script>
+
+<template>
+  <div>
+    <form>
+      <div class="form-group d-flex flex-column justify-content-center align-items-center">
+        <label for="exampleFormControlTextarea1" class="m-2"><h3>Work Report</h3></label>
+        <textarea
+          class="form-control w-50"
+          id="exampleFormControlTextarea1"
+          rows="6"
+          v-model="workReport.work_report"
+        ></textarea>
+        <div class="datepciker mt-4">
+          <VueDatePicker
+            v-model="work_date"
+            :format="format"
+            @update:model-value="fetchCurrentReportData"
+          >
+          </VueDatePicker>
+        </div>
+        <button type="submit" class="btn btn-primary m-3">Submit</button>
+      </div>
+    </form>
+  </div>
+</template>
 
 <style scoped>
 .clock {

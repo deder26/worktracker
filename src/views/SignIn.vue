@@ -1,3 +1,20 @@
+<script setup>
+import { ref } from 'vue'
+
+let userLogin = ref({
+  email: '',
+  password: ''
+})
+
+let loginUser = () => {
+  console.log(userLogin.value)
+  if (userLogin.value.email !== '' && userLogin.value.password !== '') {
+    console.log(userLogin.value)
+    alert('Login Button Clicked')
+  }
+}
+</script>
+
 <template>
   <section class="vh-100">
     <div class="container py-5 h-100">
@@ -48,22 +65,5 @@
     </div>
   </section>
 </template>
-
-<script setup>
-import { ref } from 'vue'
-
-let userLogin = ref({
-  email: '',
-  password: ''
-})
-
-let loginUser = () => {
-  console.log(userLogin.value)
-  if (userLogin.value.email !== '' && userLogin.value.password !== '') {
-    console.log(userLogin.value)
-    alert('Login Button Clicked')
-  }
-}
-</script>
 
 <style scoped></style>
