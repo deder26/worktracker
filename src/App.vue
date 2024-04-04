@@ -3,15 +3,16 @@
 // import SignUp from './views/SignUp.vue'
 
 import NavBar from './components/NavBar.vue'
-import { RouterView, RouterLink } from 'vue-router'
-import { ref } from 'vue'
+import { RouterView } from 'vue-router'
+
+import { inject } from 'vue'
+
+const globalUser = inject('globalUser')
 </script>
 
 <template>
-  <NavBar> </NavBar>
+  <NavBar v-if="globalUser.isLogin"> </NavBar>
   <RouterView />
-  <!-- <SignIn v-if="hasAccount" />
-  <SignUp v-if="!hasAccount" /> -->
 </template>
 
 <style scoped></style>

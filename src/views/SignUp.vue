@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-
+import { RouterLink } from 'vue-router'
 let userLogin = ref({
   name: '',
   email: '',
@@ -66,7 +66,7 @@ let signUpUser = () => {
               <div>
                 <p class="mb-0">
                   Already have an account?
-                  <a href="#!" class="text-black-50 fw-bold">SignIn</a>
+                  <RouterLink to="/sign-in" class="text-black-50 fw-bold">SignIn</RouterLink>
                 </p>
               </div>
             </div>

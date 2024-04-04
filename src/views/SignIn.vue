@@ -1,16 +1,37 @@
 <script setup>
-import { ref } from 'vue'
-
+import { ref, inject } from 'vue'
+import { RouterLink, useRouter } from 'vue-router'
+import authSerVices from '../services/authServices.js'
 let userLogin = ref({
   email: '',
-  password: ''
+  password: '',
+  error: false,
+  msg: ''
 })
+const router = useRouter()
 
-let loginUser = () => {
-  console.log(userLogin.value)
-  if (userLogin.value.email !== '' && userLogin.value.password !== '') {
-    console.log(userLogin.value)
-    alert('Login Button Clicked')
+let user = inject('globalUser')
+
+let loginUser = async () => {
+  try {
+    let data = await authSerVices.signIn(userLogin.value)
+
+    console.log('user_data', data)
+    if (data) {
+      user.value = {
+        id: data.id,
+        token: 'hgvbngjhbjknkbjhbbbkn',
+        isLogin: true,
+        isAdmin: data.role === 'admin' ? true : false
+      }
+      router.push('/')
+    } else {
+      userLogin.value.error = true
+      userLogin.value.msg = 'Incorrect user email or password'
+    }
+  } catch (error) {
+    console.error(error)
+    userLogin.value.msg = 'Server Error'
   }
 }
 </script>
@@ -23,7 +44,7 @@ let loginUser = () => {
           <div class="card" style="border-radius: 1rem">
             <div class="card-body p-5 text-center">
               <div class="mb-md-5 mt-md-4 pb-5">
-                <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
+                <h2 class="fw-bold mb-2 text-uppercase">Sign Up</h2>
 
                 <div class="form-outline-secondary mb-4">
                   <input
@@ -47,6 +68,10 @@ let loginUser = () => {
                   />
                 </div>
 
+                <div class="form-outline mb-4" v-if="userLogin.error">
+                  <p class="text-danger">{{ userLogin.msg }}</p>
+                </div>
+
                 <button class="btn btn-primary btn-lg px-5" type="button" @click="loginUser">
                   Login
                 </button>
@@ -55,7 +80,7 @@ let loginUser = () => {
               <div>
                 <p class="mb-0">
                   Don't have an account?
-                  <a href="#!" class="text-black-50 fw-bold">Sign Up</a>
+                  <RouterLink to="/sign-up" class="text-black-50 fw-bold">Sign Up</RouterLink>
                 </p>
               </div>
             </div>

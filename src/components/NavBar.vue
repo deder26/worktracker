@@ -1,3 +1,14 @@
+<script setup>
+import { inject } from 'vue'
+import { useRouter, RouterLink } from 'vue-router'
+import authSerVices from '../services/authServices.js'
+let user = inject('globalUser')
+let router = useRouter()
+let signOut = () => {
+  authSerVices.signOut(user)
+  router.push({ name: 'sign_in' })
+}
+</script>
 <template>
   <div class="container-fluid">
     <div class="row">
@@ -29,7 +40,7 @@
                 <RouterLink to="/profile" active-class="active" class="nav-item nav-link"
                   >profile</RouterLink
                 >
-                <RouterLink to="/sign-out" class="nav-item nav-link">SignOut</RouterLink>
+                <button class="nav-item nav-link" @click="signOut">SignOut</button>
               </div>
             </div>
           </div>

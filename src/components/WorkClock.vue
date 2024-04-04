@@ -52,8 +52,6 @@ let fetchWorkClockLog = async () => {
         workTimeLog.value.break_start_time = userData[0].break_start_time
         workTimeLog.value.break_end_time = userData[0].break_end_time
       }
-      console.log(userData)
-      console.log(workTimeLog.value)
     })
     .catch(function (error) {
       console.error(error)
