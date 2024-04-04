@@ -32,7 +32,11 @@ let signOut = () => {
                 <RouterLink to="/work-history" active-class="active" class="nav-item nav-link"
                   >History</RouterLink
                 >
-                <RouterLink to="/admin" active-class="active" class="nav-item nav-link"
+                <RouterLink
+                  to="/admin"
+                  active-class="active"
+                  class="nav-item nav-link"
+                  v-if="user.isAdmin"
                   >Administration</RouterLink
                 >
               </div>

@@ -1,17 +1,42 @@
 <script setup>
-import { ref } from 'vue'
-import { RouterLink } from 'vue-router'
+import { ref, inject } from 'vue'
+import { RouterLink, useRouter } from 'vue-router'
+import authSerVices from '../services/authServices'
+let user = inject('globalUser')
+let router = useRouter()
 let userLogin = ref({
   name: '',
   email: '',
   password: ''
 })
+let validationError = ref({
+  showErr: false,
+  errMsg: ''
+})
 
-let signUpUser = () => {
-  console.log(userLogin.value)
-  if (userLogin.value.email !== '' && userLogin.value.password !== '') {
-    console.log(userLogin.value)
-    alert('Login Button Clicked')
+let signUpUser = async () => {
+  try {
+    if (
+      userLogin.value.name !== '' &&
+      userLogin.value.email !== '' &&
+      userLogin.value.password !== ''
+    ) {
+      let response = await authSerVices.registerUser(userLogin.value)
+      if (response.success === false) throw new Error(response.msg)
+      let data = response.data
+      user.value = {
+        id: data.id,
+        token: 'hgvbngjhbjknkbjhbbbkn',
+        isLogin: true,
+        isAdmin: data.role === 'admin' ? true : false
+      }
+      router.push('/')
+    } else {
+      throw new Error('Fill all the above input field')
+    }
+  } catch (error) {
+    validationError.value.showErr = true
+    validationError.value.errMsg = error.message
   }
 }
 </script>
@@ -57,7 +82,9 @@ let signUpUser = () => {
                     placeholder="Password"
                   />
                 </div>
-
+                <div class="form-outline mb-4" v-if="validationError.showErr">
+                  <p class="text-danger">{{ validationError.errMsg }}</p>
+                </div>
                 <button class="btn btn-primary btn-lg px-5" type="button" @click="signUpUser">
                   SignUp
                 </button>
