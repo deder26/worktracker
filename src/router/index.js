@@ -3,7 +3,8 @@ import SignIn from '@/views/SignIn.vue'
 import SignUp from '@/views/SignUp.vue'
 import WorkHistory from '@/views/WorkHistory.vue'
 import WorkReport from '@/views/WorkReport.vue'
-import Admin from '@/views/WorkReport.vue'
+import Admin from '@/views/Admin.vue'
+import Profile from '@/views/ProFile.vue'
 import NotFound from '@/views/NotFound.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import useLocalStorage from '@/composables/useLocalStorage'
@@ -38,6 +39,11 @@ let routes = [
     path: '/admin',
     name: 'admin',
     component: Admin
+  },
+  {
+    path: '/profile',
+    name: 'profile',
+    component: Profile
   },
   {
     path: '/:pathMatch(.*)*',
