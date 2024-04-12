@@ -1,17 +1,19 @@
 <script setup>
-// import SignIn from './views/SignIn.vue'
-// import SignUp from './views/SignUp.vue'
-
 import NavBar from './components/NavBar.vue'
+import { onBeforeMount } from 'vue'
 import { RouterView } from 'vue-router'
+import { useAuthStore } from './store/authStore'
 
-import { inject } from 'vue'
-
-const globalUser = inject('globalUser')
+import { storeToRefs } from 'pinia'
+const authStore = useAuthStore()
+const { user } = storeToRefs(authStore)
+onBeforeMount(() => {
+  authStore.getAllUsers()
+})
 </script>
 
 <template>
-  <NavBar v-if="globalUser.isLogin"> </NavBar>
+  <NavBar v-if="user.isLogin"> </NavBar>
   <RouterView />
 </template>
 

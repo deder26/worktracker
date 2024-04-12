@@ -1,20 +1,19 @@
-import { ref, watch } from 'vue'
-
-export function useLocalStorage(key, defaultValue = null) {
-  let value = read(key)
-
-  if (!value) value = defaultValue
-  let data = ref(value)
-  watch(data, () => {
-    write(key, data)
-  })
-  return data
+function read(key) {
+  return JSON.parse(localStorage.getItem(key)) ? JSON.parse(localStorage.getItem(key)) : null
 }
 
-export function read(key) {
-  return JSON.parse(localStorage.getItem(key))
+function write(key, data) {
+  localStorage.setItem(key, JSON.stringify(data))
 }
 
-export function write(key, data) {
-  localStorage.setItem(key, JSON.stringify(data.value))
+function remove(key) {
+  localStorage.removeItem(key)
 }
+
+const useLocalStorage = {
+  read,
+  write,
+  remove
+}
+
+export default useLocalStorage

@@ -36,4 +36,29 @@ function getCurrentDate(now = null) {
   return dateString
 }
 
-export { getCurrentDateTime, getCurrentTime, getCurrentDate }
+function formatDate(date) {
+  const options = { month: 'long', day: 'numeric', weekday: 'long' }
+  return new Intl.DateTimeFormat('en-US', options).format(date)
+}
+
+function getAllDaysOfMonth(year, month) {
+  let daysOfMonth = []
+  for (let day = 1; day <= 31; day++) {
+    const currentDate = new Date(year, month - 1, day)
+
+    // Check if the date is still in the specified month
+    if (currentDate.getMonth() !== month - 1) {
+      break
+    }
+    const formattedDate = formatDate(currentDate)
+
+    const date = {
+      date: formattedDate,
+      date2: getCurrentDate(currentDate)
+    }
+    daysOfMonth.push(date)
+  }
+  return daysOfMonth
+}
+
+export { getCurrentDateTime, getCurrentTime, getCurrentDate, getAllDaysOfMonth }

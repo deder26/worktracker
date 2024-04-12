@@ -6,7 +6,8 @@ import WorkReport from '@/views/WorkReport.vue'
 import Admin from '@/views/WorkReport.vue'
 import NotFound from '@/views/NotFound.vue'
 import { createRouter, createWebHistory } from 'vue-router'
-import { inject } from 'vue'
+import useLocalStorage from '@/composables/useLocalStorage'
+
 let routes = [
   {
     path: '/',
@@ -50,10 +51,10 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from) => {
-  let user = inject('globalUser')
+  let user = useLocalStorage.read('user')
   let isAuthenticated = false
   let isToPathAdmin = to.path.split('/')[1]
-  if (user && user.value?.isLogin) isAuthenticated = true
+  if (user && user.isLogin) isAuthenticated = true
 
   if (!isAuthenticated && to.name !== 'sign_in' && to.name !== 'sign_up') {
     return { name: 'sign_in' }

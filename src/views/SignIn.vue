@@ -1,37 +1,27 @@
 <script setup>
-import { ref, inject } from 'vue'
-import { RouterLink, useRouter } from 'vue-router'
-import authSerVices from '../services/authServices.js'
+import { ref } from 'vue'
+import { useRouter, RouterLink } from 'vue-router'
+import { useAuthStore } from '../store/authStore'
+
+const authStore = useAuthStore()
+const router = useRouter()
 let userLogin = ref({
   email: '',
   password: '',
   error: false,
   msg: ''
 })
-const router = useRouter()
-
-let user = inject('globalUser')
 
 let loginUser = async () => {
   try {
-    let data = await authSerVices.signIn(userLogin.value)
-
-    console.log('user_data', data)
-    if (data) {
-      user.value = {
-        id: data.id,
-        token: 'hgvbngjhbjknkbjhbbbkn',
-        isLogin: true,
-        isAdmin: data.role === 'admin' ? true : false
-      }
-      router.push('/')
+    if (userLogin.value.email !== '' && userLogin.value.password !== '') {
+      await authStore.signIn(router, userLogin.value.email, userLogin.value.password)
     } else {
-      userLogin.value.error = true
-      userLogin.value.msg = 'Incorrect user email or password'
+      throw new Error('Email and Pass cant be empty')
     }
   } catch (error) {
-    console.error(error)
-    userLogin.value.msg = 'Server Error'
+    userLogin.value.error = true
+    userLogin.value.msg = error.message
   }
 }
 </script>

@@ -5,17 +5,9 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap'
 import VueDatePicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
-import { useLocalStorage } from './composables/useLocalStorage.js'
-
+import { createPinia } from 'pinia'
 const app = createApp(App)
-let userInfo = {
-  id: '',
-  token: '',
-  isLogin: false,
-  isAdmin: false
-}
-let user = useLocalStorage('userInfo', userInfo)
-app.provide('globalUser', user)
+const pinia = createPinia()
 app.component('VueDatePicker', VueDatePicker)
-
+app.use(pinia)
 app.use(router).mount('#app')

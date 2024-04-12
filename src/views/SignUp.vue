@@ -1,8 +1,9 @@
 <script setup>
-import { ref, inject } from 'vue'
+import { ref } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
-import authSerVices from '../services/authServices'
-let user = inject('globalUser')
+import { useAuthStore } from '../store/authStore'
+
+const authStore = useAuthStore()
 let router = useRouter()
 let userLogin = ref({
   name: '',
@@ -21,16 +22,7 @@ let signUpUser = async () => {
       userLogin.value.email !== '' &&
       userLogin.value.password !== ''
     ) {
-      let response = await authSerVices.registerUser(userLogin.value)
-      if (response.success === false) throw new Error(response.msg)
-      let data = response.data
-      user.value = {
-        id: data.id,
-        token: 'hgvbngjhbjknkbjhbbbkn',
-        isLogin: true,
-        isAdmin: data.role === 'admin' ? true : false
-      }
-      router.push('/')
+      await authStore.registerUser(router, userLogin.value)
     } else {
       throw new Error('Fill all the above input field')
     }

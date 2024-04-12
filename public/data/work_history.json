@@ -1,0 +1,56 @@
+[
+  {
+    "user_id": 1,
+    "start_time": "09:30:00",
+    "total_break_time": "01:00",
+    "end_time": "18:00:00",
+    "total_worked_time": "7hr 30min",
+    "report": "trghgdchknkbghkjlkjhjgjjk",
+    "date": "2024-03-10"
+  },
+  {
+    "user_id": 1,
+    "start_time": "09:30:00",
+    "total_break_time": "01:00",
+    "end_time": "18:00:00",
+    "total_worked_time": "7hr 30min",
+    "report": "qqqqqqqqqqqqqqqqqqqqqqq",
+    "date": "2024-03-11"
+  },
+  {
+    "user_id": 1,
+    "start_time": "09:30:00",
+    "total_break_time": "01:00",
+    "end_time": "8:00:00",
+    "total_worked_time": "7hr 30min",
+    "report": "1322wsdxcfgv cx",
+    "date": "2024-03-20"
+  },
+  {
+    "user_id": 1,
+    "start_time": "09:30:00",
+    "total_break_time": "01:00",
+    "end_time": "8:00:00",
+    "total_worked_time": "7hr 30min",
+    "report": "qweryjhbvbnmkjhgv",
+    "date": "2024-03-21"
+  },
+  {
+    "user_id": 1,
+    "start_time": "09:30:00",
+    "total_break_time": "01:00",
+    "end_time": "18:00:00",
+    "total_worked_time": "7hr 30min",
+    "report": "1322wsdxcfgv cx",
+    "date": "2024-04-01"
+  },
+  {
+    "user_id": 1,
+    "start_time": "2024-03-21 09:30:00",
+    "total_break_time": "01:00",
+    "end_time": "2024-03-10 18:00:00",
+    "total_worked_time": "7hr 30min",
+    "report": "qweryjhbvbnmkjhgv",
+    "date": "2024-04-02"
+  }
+]

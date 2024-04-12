@@ -1,12 +1,13 @@
 <script setup>
-import { inject } from 'vue'
 import { useRouter, RouterLink } from 'vue-router'
-import authSerVices from '../services/authServices.js'
-let user = inject('globalUser')
-let router = useRouter()
+import { useAuthStore } from '../store/authStore'
+import { storeToRefs } from 'pinia'
+
+const authStore = useAuthStore()
+const router = useRouter()
+const { user } = storeToRefs(authStore)
 let signOut = () => {
-  authSerVices.signOut(user)
-  router.push({ name: 'sign_in' })
+  authStore.signOut(router)
 }
 </script>
 <template>
