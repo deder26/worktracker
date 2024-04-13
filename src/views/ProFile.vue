@@ -1,3 +1,56 @@
+<script setup>
+import { ref, onBeforeMount, computed } from 'vue'
+import axios from 'axios'
+const userInfo = ref({
+  firstName: '',
+  lastName: '',
+  contact: '',
+  address: '',
+  postCode: '',
+  email: '',
+  designation: ''
+})
+import { useAuthStore } from '../store/authStore'
+import { storeToRefs } from 'pinia'
+
+const authStore = useAuthStore()
+const { user } = storeToRefs(authStore)
+onBeforeMount(() => {
+  fetchUserData()
+})
+const fullName = computed(() => {
+  return `${userInfo.value.firstName} ${userInfo.value.lastName}`
+})
+const fetchUserData = async () => {
+  try {
+    const response = await axios.get('/data/userInformation.json', {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    if (response) {
+      let data = response.data.filter((data) => {
+        return data.user_id == user.value.id
+      })
+      if (data[0]) {
+        userInfo.value = {
+          firstName: data[0].firstName,
+          lastName: data[0].lastName,
+          contact: data[0].contact,
+          address: data[0].address,
+          postCode: data[0].postCode,
+          email: data[0].email,
+          designation: data[0].designation
+        }
+      }
+    }
+  } catch (error) {
+    console.error(error)
+    alert('error')
+  }
+}
+</script>
+
 <template>
   <div class="container rounded bg-white mt-5 mb-5">
     <div class="row">
@@ -7,8 +60,9 @@
             class="rounded-circle mt-5"
             width="150px"
             src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"
-          /><span class="font-weight-bold">XXXXXXXX</span
-          ><span class="text-black-50">abx@mail.com.my</span><span> </span>
+          /><span class="font-weight-bold">{{ fullName }}</span
+          ><span class="text-black-50">{{ userInfo.email }}</span
+          ><span> </span>
         </div>
       </div>
       <div class="col-md-5 border-right">
@@ -18,18 +72,33 @@
           </div>
           <div class="row mt-2">
             <div class="col-md-6">
-              <label class="labels">Name</label
-              ><input type="text" class="form-control" placeholder="first name" value="" />
+              <label class="labels">firstName</label
+              ><input
+                type="text"
+                class="form-control"
+                placeholder="first name"
+                v-model="userInfo.firstName"
+              />
             </div>
             <div class="col-md-6">
               <label class="labels">Surname</label
-              ><input type="text" class="form-control" value="" placeholder="surname" />
+              ><input
+                type="text"
+                class="form-control"
+                v-model="userInfo.lastName"
+                placeholder="surname"
+              />
             </div>
           </div>
           <div class="row mt-3">
             <div class="col-md-12">
               <label class="labels">Mobile Number</label
-              ><input type="text" class="form-control" placeholder="enter phone number" value="" />
+              ><input
+                type="text"
+                class="form-control"
+                placeholder="enter phone number"
+                v-model="userInfo.contact"
+              />
             </div>
             <div class="col-md-12">
               <label class="labels">Address</label
@@ -37,7 +106,7 @@
                 type="text"
                 class="form-control"
                 placeholder="enter address line 1"
-                value=""
+                v-model="userInfo.address"
               />
             </div>
 
@@ -46,22 +115,28 @@
               ><input
                 type="text"
                 class="form-control"
-                placeholder="enter address line 2"
-                value=""
+                placeholder="enter postcode"
+                v-model="userInfo.postCode"
               />
             </div>
 
             <div class="col-md-12">
-              <label class="labels">Country</label
-              ><input type="text" class="form-control" placeholder="Country" value="" />
-            </div>
-            <div class="col-md-12">
               <label class="labels">Email ID</label
-              ><input type="text" class="form-control" placeholder="enter email id" value="" />
+              ><input
+                type="text"
+                class="form-control"
+                placeholder="enter email id"
+                v-model="userInfo.email"
+              />
             </div>
             <div class="col-md-12">
               <label class="labels">Designation</label
-              ><input type="text" class="form-control" placeholder="Designation" value="" />
+              ><input
+                type="text"
+                class="form-control"
+                placeholder="Designation"
+                v-model="userInfo.designation"
+              />
             </div>
           </div>
           <div class="mt-5 text-center">

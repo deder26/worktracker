@@ -3,8 +3,12 @@ import SignIn from '@/views/SignIn.vue'
 import SignUp from '@/views/SignUp.vue'
 import WorkHistory from '@/views/WorkHistory.vue'
 import WorkReport from '@/views/WorkReport.vue'
-import Admin from '@/views/Admin.vue'
+import Admin from '@/views/AdminView.vue'
 import Profile from '@/views/ProFile.vue'
+import EmployeeView from '@/views/EmployeeView.vue'
+import ReportsView from '@/views/ReportsView.vue'
+import UserReport from '@/views/UserReport.vue'
+
 import NotFound from '@/views/NotFound.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import useLocalStorage from '@/composables/useLocalStorage'
@@ -38,7 +42,21 @@ let routes = [
   {
     path: '/admin',
     name: 'admin',
-    component: Admin
+    component: Admin,
+    redirect: { name: 'employee' },
+    children: [
+      {
+        path: 'employee',
+        name: 'employee',
+        component: EmployeeView
+      },
+      {
+        path: 'reports',
+        name: 'report',
+        component: ReportsView,
+        children: [{ path: 'user/:id', name: 'user-report', component: UserReport }]
+      }
+    ]
   },
   {
     path: '/profile',
@@ -63,14 +81,17 @@ router.beforeEach(async (to, from) => {
   if (user && user.isLogin) isAuthenticated = true
 
   if (!isAuthenticated && to.name !== 'sign_in' && to.name !== 'sign_up') {
+    console.log('sign_in')
     return { name: 'sign_in' }
   }
 
   if (isAuthenticated && (to.name === 'sign_in' || to.name === 'sign_up')) {
+    console.log('dashboard')
     return { name: 'dashboard' }
   }
 
-  if (isToPathAdmin === 'admin' && !user.value.isAdmin) {
+  if (isToPathAdmin === 'admin' && !user.isAdmin) {
+    console.log('dashboard2')
     return { name: 'dashboard' }
   }
 })

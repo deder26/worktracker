@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "user_id": 1,
+    "name": "Deder Hossain",
+    "firstName": "Deder",
+    "lastName": "Hossain",
+    "email": "deder@abc.com",
+    "contact": "070XXXXXXXX",
+    "address": "..................,Japan",
+    "postCode": "12345678",
+    "designation": "System Engineer"
+  },
+  {
+    "id": 2,
+    "user_id": 2,
+    "name": "Hasan Masud",
+    "firstName": "Hasan",
+    "lastName": "Masud",
+    "email": "hasan@abc.com",
+    "contact": "070XXXXXXXX",
+    "address": "..................,Japan",
+    "postCode": "12345678",
+    "designation": "System Engineer"
+  },
+  {
+    "id": 3,
+    "user_id": 3,
+    "name": "Ibrahim Onu",
+    "firstName": "Ibrahim",
+    "lastName": "Onu",
+    "email": "onu@abc.com",
+    "contact": "070XXXXXXXX",
+    "address": "..................,Japan",
+    "postCode": "12345678",
+    "designation": "System Engineer"
+  }
+]
