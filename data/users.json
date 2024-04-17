@@ -1,0 +1,47 @@
+[
+  {
+    "id": 1,
+    "name": "Deder",
+    "password": "123456",
+    "email": "deder@abc.com",
+    "role": "admin",
+    "created_at": "2024-02-31 12:22:22",
+    "updated_at": "2024-02-31 12:22:22"
+  },
+  {
+    "id": 2,
+    "name": "hasan",
+    "password": "11111",
+    "email": "hasan@abc.com",
+    "role": "admin",
+    "created_at": "2024-02-31 12:22:22",
+    "updated_at": "2024-02-31 12:22:22"
+  },
+  {
+    "id": 3,
+    "name": "Onu",
+    "password": "123456",
+    "email": "onu@abc.com",
+    "role": "user",
+    "created_at": "2024-02-31 12:22:22",
+    "updated_at": "2024-02-31 12:22:22"
+  },
+  {
+    "id": 4,
+    "name": "Dany",
+    "password": "123456",
+    "email": "dany@abc.com",
+    "role": "user",
+    "created_at": "2024-02-31 12:22:22",
+    "updated_at": "2024-02-31 12:22:22"
+  },
+  {
+    "id": 5,
+    "name": "Rumman",
+    "password": "123456",
+    "email": "rumman@abc.com",
+    "role": "user",
+    "created_at": "2024-02-31 12:22:22",
+    "updated_at": "2024-02-31 12:22:22"
+  }
+]
