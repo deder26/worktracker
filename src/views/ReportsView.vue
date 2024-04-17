@@ -70,7 +70,7 @@ const closeModal = () => {
           <button type="button" class="btn-close" @click="closeModal"></button>
         </div>
         <div class="modal-body">
-          <WorkDetails :user_id="user_id" />
+          <WorkDetails :userId="user_id" :actionHide="true" />
         </div>
       </div>
     </div>

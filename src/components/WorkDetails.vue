@@ -1,12 +1,15 @@
 <script setup>
-import { ref, onBeforeMount, computed, defineProps } from 'vue'
+import { ref, onBeforeMount, defineProps } from 'vue'
 import axios from 'axios'
 import { getAllDaysOfMonth } from '../shared/dateAndTime.js'
 
-const { userId } = defineProps(['userId'])
+const { userId, actionHide } = defineProps(['userId', 'actionHide'])
+console.log('userId', userId)
 const daysOfMonth = ref([])
 const workHistoryData = ref([])
 const isReadOnly = ref(false)
+console.log(actionHide)
+const isActionHide = ref(actionHide ? actionHide : true)
 const currentDate = new Date()
 const currentYear = currentDate.getFullYear()
 const currentMonth = currentDate.getMonth()
@@ -103,7 +106,7 @@ const fetchReports = async () => {
           <tr>
             <th>Date</th>
             <th>Report</th>
-            <th>action</th>
+            <th v-if="!isActionHide">action</th>
           </tr>
         </thead>
         <tbody>
@@ -132,7 +135,7 @@ const fetchReports = async () => {
                 </div>
               </div>
             </td>
-            <td>
+            <td v-if="!isActionHide">
               <div class="w-75">
                 <button class="button-43 mx-2" @click="isReadOnly = !isReadOnly">
                   {{ !isReadOnly ? 'EDIT' : 'UPDATE' }}
