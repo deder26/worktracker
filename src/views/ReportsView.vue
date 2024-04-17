@@ -78,7 +78,7 @@ const closeModal = () => {
 </template>
 
 <style scoped>
-<style scoped > .modal {
+.modal {
   display: flex;
   align-items: center;
   justify-content: center;
